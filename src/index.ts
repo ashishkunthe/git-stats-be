@@ -23,8 +23,31 @@ app.post("/api/account", async (req, res): Promise<void> => {
     const response = await axios.get(
       `https://api.github.com/users/${username}`
     );
+
+    const {
+      login,
+      name,
+      avatar_url,
+      html_url,
+      bio,
+      public_repos,
+      followers,
+      following,
+      created_at,
+      updated_at,
+    } = response.data;
+
     res.json({
-      data: response.data,
+      username: login,
+      name,
+      avatar: avatar_url,
+      profileUrl: html_url,
+      bio,
+      publicRepos: public_repos,
+      followers,
+      following,
+      joined: created_at,
+      lastActivity: updated_at,
     });
   } catch (e) {
     res.json({
