@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import axios from "axios";
+import octo from "./githubService";
 
 const app = express();
 
@@ -20,34 +21,17 @@ app.post("/api/account", async (req, res): Promise<void> => {
   }
   const username = match[1];
   try {
-    const response = await axios.get(
-      `https://api.github.com/users/${username}`
-    );
-
-    const {
-      login,
-      name,
-      avatar_url,
-      html_url,
-      bio,
-      public_repos,
-      followers,
-      following,
-      created_at,
-      updated_at,
-    } = response.data;
-
+    const { data } = await octo.rest.users.getByUsername({ username });
     res.json({
-      username: login,
-      name,
-      avatar: avatar_url,
-      profileUrl: html_url,
-      bio,
-      publicRepos: public_repos,
-      followers,
-      following,
-      joined: created_at,
-      lastActivity: updated_at,
+      username: data.login,
+      name: data.name,
+      avatar: data.avatar_url,
+      profileUrl: data.html_url,
+      bio: data.bio,
+      publicRepos: data.public_repos,
+      followers: data.followers,
+      following: data.following,
+      joined: data.created_at,
     });
   } catch (e) {
     res.json({
