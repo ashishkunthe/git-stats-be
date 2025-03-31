@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
-import axios from "axios";
-import octo from "./githubService";
+import octo from "./githubService.js";
 
 const app = express();
 
@@ -40,4 +39,4 @@ app.post("/api/account", async (req, res): Promise<void> => {
   }
 });
 
-app.listen(3000);
+app.listen(5000);
